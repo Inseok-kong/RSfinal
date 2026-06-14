@@ -1142,15 +1142,15 @@
               <div class="kicker">Background</div>
               <ul class="bullets">
                 <li><strong>2022 카타르 월드컵</strong>은 루사일 개발의 직접적 촉매</li>
-                <li>경기장, 도로, 주거·상업지 개발이 단기간에 집중</li>
-                <li>기존 사막 지표가 도시·녹지·혼합지표로 전환</li>
-                <li>해안 매립과 마리나 조성으로 수역 경계도 변화</li>
-                <li>메가 이벤트의 도시 유산을 공간적으로 검증할 필요</li>
-                <li>육안 비교를 넘어 <strong>면적·전이경로</strong>까지 정량화</li>
+                <li>경기장·도로 등 인프라 건설과 해안 매립이 집중</li>
+                <li>단기간에 급격한 공간 변화가 발생</li>
+                <li>단순 사막 지표가 도시·녹지·혼합지표로 전환</li>
+                <li>개발 과정에서 해안 수역 경계도 함께 변화</li>
+                <li>True Color 육안 비교만으로는 도시 유산 검증에 한계</li>
               </ul>
             </div>
           </div>
-          <div class="slide-footer"><div class="takeaway">핵심 동기는 “월드컵이라는 메가 이벤트가 사막 도시의 지표면을 실제로 어디서, 얼마나, 어떤 유형으로 바꾸었는가”를 검증하는 것이다.</div><div class="section-tag">01 연구 배경</div></div>
+          <div class="slide-footer"><div class="takeaway">핵심 질문은 “2022 카타르 월드컵이라는 메가 이벤트가 사막 도시 루사일의 지표면을 어디서, 얼마나, 어떤 유형으로 바꾸었는가?”이다.</div><div class="section-tag">01 연구 배경</div></div>
         </div>
       </section>
 
@@ -1161,29 +1161,30 @@
             <div class="visual-panel">
               <div class="motivation-board">
                 <div class="motivation-chain">
-                  <div class="motivation-card"><div class="motivation-num">01</div><div class="motivation-title">World Cup</div><div class="motivation-desc">루사일 개발을 촉진한 메가 이벤트</div></div>
-                  <div class="motivation-card"><div class="motivation-num">02</div><div class="motivation-title">Urban Growth</div><div class="motivation-desc">도로·경기장·주거지·마리나 확대</div></div>
-                  <div class="motivation-card"><div class="motivation-num">03</div><div class="motivation-title">Surface Change</div><div class="motivation-desc">사막 지표가 도시·녹지·혼합지표로 전환</div></div>
+                  <div class="motivation-card"><div class="motivation-num">01</div><div class="motivation-title">Spectral Confusion</div><div class="motivation-desc">건조지에서 사막과 도시 지표 반사가 유사</div></div>
+                  <div class="motivation-card"><div class="motivation-num">02</div><div class="motivation-title">Index Fusion</div><div class="motivation-desc">NDVI·NDBI·MNDWI·BSI를 함께 사용</div></div>
+                  <div class="motivation-card"><div class="motivation-num">03</div><div class="motivation-title">Integrated Proof</div><div class="motivation-desc">지도·면적·전이경로를 통합 검증</div></div>
                 </div>
                 <div class="motivation-evidence">
-                  <div class="evidence-card"><h3>공간적 근거</h3><p>개발 흔적은 위성영상의 위치와 형태로 확인된다.</p></div>
-                  <div class="evidence-card"><h3>분광적 근거</h3><p>식생·도시·수역·사막은 서로 다른 반사 특성을 가진다.</p></div>
-                  <div class="evidence-card"><h3>정량적 근거</h3><p>면적 변화와 전이행렬로 변화 규모를 설명할 수 있다.</p></div>
+                  <div class="evidence-card"><h3>기술적 난제</h3><p>사막과 새 도시 지표는 건조지에서 분광적으로 혼동될 수 있다.</p></div>
+                  <div class="evidence-card"><h3>공간정보학적 해결</h3><p>다중 분광지수와 KMeans 분류를 결합해 유형을 분리한다.</p></div>
+                  <div class="evidence-card"><h3>검증 방식</h3><p>정성 지도와 정량 수치로 변화의 위치·규모·경로를 함께 설명한다.</p></div>
                 </div>
               </div>
             </div>
             <div class="text-panel">
-              <div class="kicker">Motivation</div>
+              <div class="kicker">Why Remote Sensing?</div>
               <ul class="bullets">
-                <li>월드컵 개발은 루사일의 공간구조를 바꾸는 계기</li>
-                <li>변화는 지표면 반사 특성과 토지피복에 남음</li>
-                <li>사막과 도시는 건조지에서 혼동 가능</li>
-                <li>따라서 단일 지도보다 다중 지표가 필요</li>
-                <li>정성 지도와 정량 면적을 동시에 제시</li>
+                <li>사막과 도시는 건조지에서 분광적으로 혼동 가능</li>
+                <li>단일 RGB 영상만으로는 변화 유형 구분에 한계</li>
+                <li>NDVI는 식생, NDBI는 시가지 신호를 강조</li>
+                <li>MNDWI는 수역, BSI는 사막·나지 신호를 보완</li>
+                <li>KMeans로 토지피복을 유형화해 지도화</li>
+                <li>면적 변화와 전이행렬로 객관적 검증 수행</li>
               </ul>
             </div>
           </div>
-          <div class="slide-footer"><div class="takeaway">따라서 본 연구는 “월드컵 개발 → 도시 확장 → 토지피복 변화”라는 흐름을 Landsat 자료로 직접 측정한다.</div><div class="section-tag">01 필요성</div></div>
+          <div class="slide-footer"><div class="takeaway">따라서 본 연구는 다중 지수와 KMeans 분류를 융합해 루사일의 공간 변화와 면적 변화, 전이 경로를 동시에 검증한다.</div><div class="section-tag">01 필요성</div></div>
         </div>
       </section>
 
