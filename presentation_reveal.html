@@ -1289,6 +1289,42 @@
       color: var(--accent);
     }
 
+    .fullscreen-toggle {
+      position: fixed;
+      top: 22px;
+      right: 28px;
+      z-index: 80;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 42px;
+      padding: 0 14px;
+      border: 1px solid rgba(26, 58, 92, 0.22);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--primary);
+      font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(26, 58, 92, 0.12);
+    }
+
+    .fullscreen-toggle:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .fullscreen-toggle .fs-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    @media print {
+      .fullscreen-toggle {
+        display: none !important;
+      }
+    }
+
     @keyframes riseIn {
       from { opacity: 0; transform: translateY(14px); }
       to { opacity: 1; transform: translateY(0); }
@@ -1301,6 +1337,10 @@
   </style>
 </head>
 <body>
+  <button class="fullscreen-toggle" id="fullscreenToggle" type="button" aria-label="전체화면 전환">
+    <span class="fs-icon">⛶</span>
+    <span class="fs-label">전체화면</span>
+  </button>
   <div class="reveal">
     <div class="slides">
       <section>
@@ -1900,6 +1940,31 @@
       maxScale: 2.0,
       transition: "fade",
       backgroundTransition: "fade"
+    });
+
+    const fullscreenToggle = document.getElementById("fullscreenToggle");
+    const fullscreenLabel = fullscreenToggle?.querySelector(".fs-label");
+
+    if (!document.fullscreenEnabled && fullscreenToggle) {
+      fullscreenToggle.hidden = true;
+    }
+
+    fullscreenToggle?.addEventListener("click", async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.warn("Fullscreen request failed", error);
+      }
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      if (fullscreenLabel) {
+        fullscreenLabel.textContent = document.fullscreenElement ? "나가기" : "전체화면";
+      }
     });
   </script>
 </body>
