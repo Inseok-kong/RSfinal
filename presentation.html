@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카타르 월드컵은 사막을 어떻게 바꾸었는가?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #1a3a5c;
+    --accent: #e8a020;
+    --green: #2e7d32;
+    --red: #c62828;
+    --blue: #1565c0;
+    --sand: #c4a265;
+    --light: #f5f7fa;
+    --text: #1a1a2e;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text);
+    transition: padding 0.3s;
+  }
+
+  /* 전체화면 모드 */
+  body.fs-mode {
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+  }
+  body.fs-mode .slides-wrapper {
+    margin-top: 0;
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+  }
+  body.fs-mode .slide {
+    border-radius: 0;
+    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+    box-shadow: none;
+    overflow: hidden;
+  }
+  body.fs-mode .slide.active {
+    display: flex;
+    flex-direction: column;
+  }
+  /* 전체화면에서 slide-body가 남은 공간 전부 차지 */
+  /* ===== FULLSCREEN: 슬라이드 body 기본 레이아웃 ===== */
+  body.fs-mode .slide-body {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px 36px 72px !important;
+    gap: 10px !important;
+  }
+  body.fs-mode .slide-body.two-col {
+    flex-direction: row;
+  }
+  body.fs-mode .col {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== FULLSCREEN: 공통 요소 업스케일 ===== */
+  body.fs-mode .slide-header { padding: 12px 36px; }
+  body.fs-mode .slide-header-title { font-size: 17px; }
+  body.fs-mode .slide-num { font-size: 12px; padding: 3px 12px; }
+  body.fs-mode .story-tag { font-size: 11px; }
+  body.fs-mode .section-title { font-size: 20px; padding-bottom: 6px; margin-bottom: 0; flex-shrink: 0; }
+  body.fs-mode .info-box { font-size: 13px; padding: 10px 14px; line-height: 1.6; }
+  body.fs-mode .card { padding: 12px 12px; }
+  body.fs-mode .card-icon { font-size: 28px; }
+  body.fs-mode .card-title { font-size: 13px; }
+  body.fs-mode .card-desc { font-size: 12px; line-height: 1.55; }
+  body.fs-mode .bullet-list li { font-size: 14px; line-height: 1.65; }
+  body.fs-mode .bullet-list { gap: 10px; }
+  body.fs-mode .highlight-box { font-size: 15px; padding: 16px 22px; }
+  body.fs-mode .highlight-box .num { font-size: 30px; }
+  body.fs-mode .chips { gap: 8px; }
+  body.fs-mode .chip { font-size: 13px; padding: 6px 14px; }
+  body.fs-mode .legend-item { font-size: 13px; }
+  body.fs-mode .legend-dot { width: 14px; height: 14px; }
+  body.fs-mode .nav { display: none; }
+  body.fs-mode .key-hint { display: none; }
+  body.fs-mode .progress-bar { height: 4px; }
+
+  /* ===== FULLSCREEN: 이미지 ===== */
+  body.fs-mode .img-row { flex: 1; min-height: 0; gap: 12px; }
+  body.fs-mode .img-frame { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  body.fs-mode .img-frame img {
+    flex: 1;
+    width: 100% !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    object-fit: contain;
+  }
+  body.fs-mode .img-label { font-size: 13px; padding: 8px; flex-shrink: 0; }
+
+  /* ===== FULLSCREEN: 통계/테이블 ===== */
+  body.fs-mode .stat-grid { flex-shrink: 0; }
+  body.fs-mode .stat-value { font-size: 28px; }
+  body.fs-mode .stat-label { font-size: 12px; }
+  body.fs-mode .stat-unit { font-size: 12px; }
+  body.fs-mode .stat-card { padding: 16px 10px; }
+  body.fs-mode .data-table { font-size: 13px; }
+  body.fs-mode .data-table th, body.fs-mode .data-table td { padding: 8px 12px; }
+  body.fs-mode .matrix-table { font-size: 13px; }
+  body.fs-mode .matrix-table th, body.fs-mode .matrix-table td { padding: 8px 12px; }
+
+  /* ===== FULLSCREEN: 파이프라인 ===== */
+  body.fs-mode .pipe-step { font-size: 13px; padding: 12px 12px; }
+  body.fs-mode .pipe-step small { font-size: 11px; }
+
+  /* ===== FULLSCREEN: 지수 카드 그리드 ===== */
+  body.fs-mode .index-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    flex: 1;
+    min-height: 0;
+    gap: 10px;
+  }
+  body.fs-mode .index-card { padding: 12px 14px; display: flex; flex-direction: column; }
+  body.fs-mode .index-name { font-size: 14px; }
+  body.fs-mode .index-formula { font-size: 12px; padding: 8px 10px; }
+  body.fs-mode .index-desc { font-size: 12px; line-height: 1.55; flex: 1; }
+
+  /* ===== FULLSCREEN: 결론 리스트 ===== */
+  body.fs-mode .concl-list { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  body.fs-mode .concl-item { flex: 1; padding: 12px 16px; align-items: center; }
+  body.fs-mode .concl-text { font-size: 13px; line-height: 1.6; }
+  body.fs-mode .concl-num { width: 28px; height: 28px; font-size: 14px; }
+
+  /* ===== FULLSCREEN: 선행연구 그리드 ===== */
+  body.fs-mode .prior-research-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    flex: 1;
+    min-height: 0;
+    gap: 10px;
+  }
+  body.fs-mode .prior-research-grid > div { overflow: hidden; }
+
+  /* ===== FULLSCREEN: cards-row flex 채우기 ===== */
+  body.fs-mode .cards-row { flex: 1; min-height: 0; }
+  body.fs-mode .cards-row .card { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ===== FULLSCREEN: 타이틀 슬라이드 ===== */
+  body.fs-mode .title-slide { min-height: 100vh; justify-content: center; }
+  body.fs-mode .title-main { font-size: 42px; }
+  body.fs-mode .title-sub { font-size: 16px; }
+  body.fs-mode .meta-value { font-size: 14px; }
+  body.fs-mode .meta-label { font-size: 12px; }
+  /* 전체화면 모드 내비 오버레이 */
+  .fs-nav {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10,10,30,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 30px;
+    padding: 8px 20px;
+    gap: 14px;
+    align-items: center;
+    z-index: 2000;
+  }
+  body.fs-mode .fs-nav { display: flex; }
+  .fs-nav-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 6px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+  .fs-nav-btn:hover { background: rgba(255,255,255,0.25); }
+  .fs-counter { color: rgba(255,255,255,0.6); font-size: 13px; min-width: 50px; text-align: center; }
+  .fs-exit-btn {
+    background: rgba(232,160,32,0.2);
+    border: 1px solid rgba(232,160,32,0.5);
+    color: #e8a020;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+  .fs-exit-btn:hover { background: rgba(232,160,32,0.35); }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,10,30,0.95);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-title { color: #fff; font-size: 13px; opacity: 0.7; }
+  .nav-controls { display: flex; gap: 8px; align-items: center; }
+  .nav-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.2); }
+  .nav-counter { color: rgba(255,255,255,0.6); font-size: 13px; min-width: 60px; text-align: center; }
+  .nav-btn.fullscreen { font-size: 15px; padding: 6px 10px; }
+
+  /* Slide container */
+  .slides-wrapper { margin-top: 60px; width: 100%; max-width: 960px; }
+
+  .slide {
+    display: none;
+    width: 100%;
+    min-height: 540px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+  }
+  .slide.active { display: flex; flex-direction: column; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    z-index: 1000;
+  }
+
+  /* ===== SLIDE COMPONENTS ===== */
+
+  /* Header strip */
+  .slide-header {
+    background: var(--primary);
+    padding: 18px 36px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .slide-num {
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .slide-header-title { color: #fff; font-size: 15px; font-weight: 500; opacity: 0.9; }
+  .story-tag {
+    margin-left: auto;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+    font-size: 10px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+  /* 슬라이드 간 연결 화살표 안내 */
+  .flow-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #fff8e1, #fff3cd);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: #795548;
+    border-left: 3px solid var(--accent);
+  }
+  .flow-hint svg { flex-shrink: 0; }
+
+  /* Slide body */
+  .slide-body {
+    padding: 32px 36px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .slide-body.two-col { flex-direction: row; gap: 28px; }
+  .col { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+  /* Title slide */
+  .title-slide {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 50%, #0d2137 100%);
+    min-height: 540px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .title-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .title-tag {
+    background: rgba(232,160,32,0.2);
+    border: 1px solid rgba(232,160,32,0.5);
+    color: var(--accent);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  .title-main {
+    color: #fff;
+    font-size: 34px;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .title-main span { color: var(--accent); }
+  .title-sub {
+    color: rgba(255,255,255,0.65);
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+  .title-meta {
+    display: flex;
+    gap: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+  }
+  .meta-item { text-align: center; }
+  .meta-label { color: rgba(255,255,255,0.4); font-size: 11px; margin-bottom: 4px; }
+  .meta-value { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 500; }
+
+  /* Section headings */
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--accent);
+    margin-bottom: 4px;
+  }
+  .section-subtitle {
+    font-size: 13px;
+    color: #666;
+    margin-top: -12px;
+  }
+
+  /* Bullet list */
+  .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .bullet-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+  }
+  .bullet-list li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .bullet-list li strong { color: var(--primary); }
+
+  /* Info box */
+  .info-box {
+    background: var(--light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #444;
+  }
+  .info-box.blue { border-color: var(--blue); background: #e8f0fe; }
+  .info-box.green { border-color: var(--green); background: #e8f5e9; }
+  .info-box.red { border-color: var(--red); background: #fce8e8; }
+
+  /* Cards row */
+  .cards-row { display: flex; gap: 14px; }
+  .card {
+    flex: 1;
+    background: var(--light);
+    border-radius: 10px;
+    padding: 18px 16px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+  }
+  .card-icon { font-size: 28px; margin-bottom: 8px; }
+  .card-title { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .card-desc { font-size: 12px; color: #666; line-height: 1.5; }
+
+  /* Band chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .chip.blue-band { background: #bbdefb; color: #0d47a1; }
+  .chip.green-band { background: #c8e6c9; color: #1b5e20; }
+  .chip.red-band { background: #ffcdd2; color: #b71c1c; }
+  .chip.nir { background: #f3e5f5; color: #4a148c; }
+  .chip.swir { background: #fff3e0; color: #e65100; }
+  .chip.accent { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+
+  /* Pipeline steps */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    margin: 8px 0;
+  }
+  .pipe-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .pipe-step {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    width: 90%;
+    position: relative;
+    z-index: 1;
+  }
+  .pipe-step small { opacity: 0.7; font-size: 10px; display: block; margin-top: 3px; }
+  .pipe-step.highlight { background: #1e5f8a; border: 2px solid var(--accent); }
+  .pipe-connector-h {
+    position: absolute;
+    top: 50%;
+    right: -18px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+  .pipe-connector-h svg { display: block; }
+  .pipe-row { display: flex; flex-direction: column; gap: 12px; }
+  .pipe-row-inner { display: flex; align-items: center; gap: 0; }
+  .pipe-arrow-svg {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Index formula cards */
+  .index-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .index-card {
+    background: var(--light);
+    border-radius: 10px;
+    padding: 16px;
+    border-top: 4px solid;
+  }
+  .index-card.ndvi { border-color: #4caf50; }
+  .index-card.ndbi { border-color: #f44336; }
+  .index-card.mndwi { border-color: #2196f3; }
+  .index-card.bsi { border-color: #ff9800; }
+  .index-name { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .index-formula {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 8px 0;
+    color: #333;
+  }
+  .index-desc { font-size: 12px; color: #666; line-height: 1.5; }
+
+  /* Image comparison row */
+  .img-row { display: flex; gap: 12px; }
+  .img-frame {
+    flex: 1;
+    background: #0d1b2a;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .img-frame img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background: #0d1b2a;
+    display: block;
+  }
+  .img-label {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* Stats */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-card {
+    background: var(--light);
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+  }
+  .stat-value { font-size: 24px; font-weight: 900; color: var(--primary); }
+  .stat-unit { font-size: 11px; color: #999; }
+  .stat-label { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.4; }
+  .stat-card.up .stat-value { color: var(--red); }
+  .stat-card.down .stat-value { color: var(--blue); }
+
+  /* Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .data-table th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .data-table td {
+    padding: 9px 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    color: #333;
+  }
+  .data-table tr:nth-child(even) td { background: #f9f9f9; }
+  .data-table td:first-child { text-align: left; font-weight: 600; color: var(--primary); }
+  .td-up { color: var(--red) !important; font-weight: 700; }
+  .td-down { color: var(--blue) !important; font-weight: 700; }
+
+  /* Transition matrix */
+  .matrix-wrap { overflow-x: auto; }
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .matrix-table th, .matrix-table td {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  .matrix-table th { background: var(--primary); color: #fff; font-weight: 600; }
+  .matrix-table .row-head { background: #f0f4f8; font-weight: 700; color: var(--primary); }
+  .heat-0 { background: #fff; }
+  .heat-1 { background: #fff9c4; }
+  .heat-2 { background: #ffcc80; }
+  .heat-3 { background: #ef9a9a; }
+  .heat-4 { background: #e53935; color: #fff; font-weight: 700; }
+
+  /* Bar chart (CSS) */
+  .bar-chart { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-label { font-size: 12px; color: #555; width: 110px; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 22px; background: #eee; border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; color: #fff; font-weight: 600; transition: width 0.8s ease; }
+  .bar-fill.desert { background: #d4a847; }
+  .bar-fill.urban { background: #78909c; }
+  .bar-fill.veg { background: #4caf50; }
+  .bar-fill.water { background: #2196f3; }
+  .bar-fill.mixed { background: #ff9800; }
+
+  /* Line chart (SVG) */
+  .chart-svg { width: 100%; }
+
+  /* Conclusion bullets */
+  .concl-list { display: flex; flex-direction: column; gap: 14px; }
+  .concl-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--light);
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .concl-num {
+    background: var(--accent);
+    color: #fff;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .concl-text { font-size: 13px; line-height: 1.7; color: #333; }
+  .concl-text strong { color: var(--primary); }
+
+  /* Keyboard hint */
+  .key-hint {
+    margin-top: 12px;
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  /* Legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Tag row */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    background: #e8f0fe;
+    color: var(--blue);
+    border: 1px solid #b3c9f5;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* Highlight box */
+  .highlight-box {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+  }
+  .highlight-box .num { font-size: 28px; font-weight: 900; color: var(--accent); }
+
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="nav">
+  <div class="nav-title">카타르 월드컵 × 원격탐사 — 기말 프로젝트</div>
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">← 이전</button>
+    <span class="nav-counter" id="counter">1 / 14</span>
+    <button class="nav-btn" onclick="nextSlide()">다음 →</button>
+    <button class="nav-btn fullscreen" onclick="toggleFullscreen()" id="fsBtn" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<div class="slides-wrapper">
+
+<!-- ========== SLIDE 1: Title ========== -->
+<div class="slide active">
+  <div class="title-slide">
+    <div class="title-tag">🛰 AI 원격탐사 — 기말 팀 프로젝트</div>
+    <div class="title-main">카타르 월드컵은<br><span>사막을 어떻게 바꾸었는가?</span></div>
+    <div class="title-sub">
+      2022 FIFA 월드컵 개최에 따른 Lusail(루사일) 지역 도시화 및 녹지 변화 분석<br>
+      Landsat Collection 2 Level-2 기반 다시기 원격탐사 분석
+    </div>
+    <div class="title-meta">
+      <div class="meta-item">
+        <div class="meta-label">연구 지역</div>
+        <div class="meta-value">카타르 루사일 (12×12 km)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">분석 시기</div>
+        <div class="meta-value">2000 / 2010 / 2022</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">위성 데이터</div>
+        <div class="meta-value">Landsat C2 L2</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">분석 기법</div>
+        <div class="meta-value">지수 + KMeans + 변화탐지</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 2: 연구 배경 및 필요성 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">01</span>
+    <span class="slide-header-title">연구 배경 및 필요성</span>
+    <span class="story-tag">① 문제 제기</span>
+  </div>
+  <div class="slide-body" style="padding-top:18px; padding-bottom:18px; gap:14px;">
+
+    <!-- 연구 동기 — 2열: 맥락 + 핵심 질문 -->
+    <div style="display:flex; gap:12px;">
+      <!-- 좌: 사건의 맥락 -->
+      <div style="flex:1.1; background:linear-gradient(135deg,#0d1b2a,#1a3a5c); border-radius:10px; padding:16px 18px; color:#fff; border-left:4px solid #e8a020;">
+        <div style="font-size:11px; color:#e8a020; font-weight:700; letter-spacing:1px; margin-bottom:8px;">RESEARCH MOTIVATION</div>
+        <div style="font-size:13px; line-height:1.8;">
+          카타르는 <strong style="color:#e8a020;">연평균 강수량 75 mm</strong>의 극건조 사막 국가다.<br>
+          그럼에도 <strong style="color:#fff;">2010년 FIFA 월드컵 개최권</strong>을 획득하자,<br>
+          사막 해안에 <strong style="color:#e8a020;">루사일(Lusail)</strong>이라는 계획신도시를 0에서 건설하기 시작했다.<br>
+          <span style="opacity:0.7; font-size:12px;">— 스타디움, 마리나, 인공섬, 고속도로, 조경 녹지까지 단 12년 만에.</span>
+        </div>
+      </div>
+      <!-- 우: 연구 질문 -->
+      <div style="flex:1; background:#fff8e1; border:1px solid #e8a020; border-radius:10px; padding:16px 18px; border-left:4px solid #e8a020;">
+        <div style="font-size:11px; color:#e8a020; font-weight:700; letter-spacing:1px; margin-bottom:8px;">RESEARCH QUESTION</div>
+        <div style="font-size:13px; color:#333; line-height:1.8;">
+          이 극적인 변화를 <strong>위성 원격탐사로 정량적으로 실증</strong>할 수 있는가?<br><br>
+          구체적으로 —<br>
+          · 사막 면적은 얼마나 <strong>줄었는가?</strong><br>
+          · 도시·녹지는 어디서 <strong>어떻게 늘었는가?</strong><br>
+          · 픽셀 단위로 <strong>전환 경로를 추적</strong>할 수 있는가?
+        </div>
+      </div>
+    </div>
+
+    <!-- 3열 Why 구조 -->
+    <div class="cards-row" style="gap:10px;">
+      <div class="card" style="border-top:3px solid #e8a020; padding:12px 12px; text-align:left;">
+        <div style="font-size:11px; font-weight:700; color:#e8a020; margin-bottom:6px;">WHY THIS TOPIC</div>
+        <div class="card-desc" style="text-align:left; line-height:1.6;">
+          사막↔도시의 <strong>분광 특성 차이가 극명</strong>해 지수 기반 분석에 최적.<br>
+          개발 원인(월드컵)이 명확해 <strong>인과 해석</strong> 가능
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid #1565c0; padding:12px 12px; text-align:left;">
+        <div style="font-size:11px; font-weight:700; color:#1565c0; margin-bottom:6px;">WHY REMOTE SENSING</div>
+        <div class="card-desc" style="text-align:left; line-height:1.6;">
+          144 km² 광역을 <strong>현지조사 없이 시계열로</strong> 관측 가능.<br>
+          Landsat Level-2 <strong>대기보정 완료</strong> → 시기 간 오차 없는 직접 비교
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid #2e7d32; padding:12px 12px; text-align:left;">
+        <div style="font-size:11px; font-weight:700; color:#2e7d32; margin-bottom:6px;">WHY THIS METHOD</div>
+        <div class="card-desc" style="text-align:left; line-height:1.6;">
+          4종 지수(NDVI·NDBI·MNDWI·BSI)로 <strong>분광 분리</strong>.<br>
+          KMeans 비지도 분류 + <strong>전이행렬</strong>로 픽셀 단위 변화 경로 정량화
+        </div>
+      </div>
+    </div>
+
+    <!-- 가설 + 수업 연계 -->
+    <div style="display:flex; gap:12px;">
+      <div style="flex:1.2; background:#e8f5e9; border-left:4px solid #2e7d32; border-radius:0 8px 8px 0; padding:11px 16px; font-size:12px; color:#1b5e20; line-height:1.7;">
+        <strong>검증 가설:</strong> 2000→2022년 루사일의 사막은 유의미하게 감소하고,
+        도시·녹지는 그 자리를 대체했을 것이다 — <strong>km² 수치와 픽셀 전이 경로</strong>로 실증
+      </div>
+      <div style="flex:1; background:#e8f0fe; border-left:4px solid #1565c0; border-radius:0 8px 8px 0; padding:11px 16px; font-size:12px; color:#0d47a1; line-height:1.7;">
+        <strong>수업 연계:</strong> Level-2 표면반사도 · 스펙트럴 지수 · KMeans · 차분 변화탐지 — 강의 핵심 기법 통합 실전 적용
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== SLIDE 3: 선행연구 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">02</span>
+    <span class="slide-header-title">선행연구 검토</span>
+    <span class="story-tag">② 연구 맥락</span>
+  </div>
+  <div class="slide-body" style="gap:12px;">
+    <div class="section-title">본 연구의 학술적 위치</div>
+
+    <!-- 논문 카드 그리드: flex:1로 남은 공간 전부 채움 -->
+    <div class="prior-research-grid" style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:12px; flex:1; min-height:0;">
+
+      <div style="background:#fff8e1; border-left:4px solid #e8a020; border-radius:0 10px 10px 0; padding:16px 18px; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:10px; font-weight:700; color:#e8a020; letter-spacing:0.8px;">URBAN GROWTH · QATAR</div>
+        <div style="font-size:13px; font-weight:700; color:#1a3a5c; line-height:1.4;">Change analysis of land use/land cover and modelling urban growth in Greater Doha, Qatar</div>
+        <div style="font-size:11px; color:#888;">Balakrishnan · <em>Annals of GIS</em> · 2014</div>
+        <div style="font-size:13px; color:#444; line-height:1.65; flex:1;">1997~2010 도하 토지피복 변화 분석. 건설지역 <strong>289%</strong> 증가. Landsat 기반 카타르 도시화 연구의 기준 논문 — 본 연구는 이를 월드컵 특정 시점(2000·2010·2022)으로 확장하고 루사일 신도시에 집중</div>
+      </div>
+
+      <div style="background:#e8f5e9; border-left:4px solid #2e7d32; border-radius:0 10px 10px 0; padding:16px 18px; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:10px; font-weight:700; color:#2e7d32; letter-spacing:0.8px;">WORLD CUP · GREEN SPACE · QATAR</div>
+        <div style="font-size:13px; font-weight:700; color:#1a3a5c; line-height:1.4;">The World Cup reshaped the urban green space pattern of Qatar</div>
+        <div style="font-size:11px; color:#888;">Zhou et al. · <em>Ecological Informatics</em> · 2024</div>
+        <div style="font-size:13px; color:#444; line-height:1.65; flex:1;">2022 월드컵이 카타르 도시 녹지 패턴에 미친 영향. 녹지 노출도 <strong>8.7배</strong> 개선 확인 — 본 연구의 NDVI·KMeans 분류 결과와 직접 비교 가능한 최근접 선행연구. 행정구역 단위 분석을 픽셀 단위로 심화</div>
+      </div>
+
+      <div style="background:#e8f0fe; border-left:4px solid #1565c0; border-radius:0 10px 10px 0; padding:16px 18px; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:10px; font-weight:700; color:#1565c0; letter-spacing:0.8px;">MEGA-EVENT · URBAN GREENSPACE</div>
+        <div style="font-size:13px; font-weight:700; color:#1a3a5c; line-height:1.4;">Olympic effects on reshaping urban greenspace of host cities</div>
+        <div style="font-size:11px; color:#888;">Tu et al. · <em>Landscape and Urban Planning</em> · 2023</div>
+        <div style="font-size:13px; color:#444; line-height:1.65; flex:1;">1988~2016년 8개 올림픽 개최도시의 녹지 변화. 메가 이벤트로 평균 녹지 <strong>3.41%</strong> 증가 — 월드컵이 올림픽과 동일한 도시 녹화 패턴을 보이는지 본 연구의 NDVI 결과로 검증. 사막 개최국이라는 극단적 조건이 차별점</div>
+      </div>
+
+      <div style="background:#fce8e8; border-left:4px solid #c62828; border-radius:0 10px 10px 0; padding:16px 18px; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:10px; font-weight:700; color:#c62828; letter-spacing:0.8px;">SPECTRAL INDICES · CHANGE DETECTION</div>
+        <div style="font-size:13px; font-weight:700; color:#1a3a5c; line-height:1.4;">Using NDVI, NDBI and NDWI Indexes for Change Detection in Land Cover</div>
+        <div style="font-size:11px; color:#888;">Al-Khaqani · <em>Journal of Kufa–Physics</em> · 2014</div>
+        <div style="font-size:13px; color:#444; line-height:1.65; flex:1;">중동 건조지역(이라크 나자프)에서 다중 분광 지수로 토지피복 변화 탐지. 사막 지역의 NDVI·NDBI·NDWI 조합 적용 — 본 연구의 방법론적 직접 선행 사례. BSI를 추가해 사막 추출 정밀도를 높인 점이 본 연구의 발전</div>
+      </div>
+
+    </div>
+
+    <!-- 선행연구 종합 시사점 -->
+    <div style="background:linear-gradient(90deg,#0d1b2a,#1a3a5c); border-radius:10px; padding:14px 20px; color:#fff; font-size:13px; line-height:1.7; border-left:4px solid #e8a020; flex-shrink:0;">
+      📌 <strong style="color:#e8a020;">선행연구와의 차별점:</strong>
+      기존 연구는 녹지 단일 지표 또는 행정구역 단위 분석에 그침.
+      본 연구는 <strong>4종 지수 + KMeans 분류 + 픽셀 단위 전이행렬</strong>을 통합하여 루사일 12×12 km의 전체 피복 전환 경로를 정량화
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 4: 연구지역 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">02</span>
+    <span class="slide-header-title">연구지역 및 분석 좌표계</span>
+    <span class="story-tag">② 어디를 볼 것인가</span>
+  </div>
+  <div class="slide-body two-col">
+    <div class="col">
+      <div class="section-title">Lusail, Qatar</div>
+      <ul class="bullet-list">
+        <li><strong>위치:</strong> 카타르 도하 북쪽, 루사일 스타디움 및 마리나 중심</li>
+        <li><strong>분석 범위:</strong> 12 km × 12 km (약 144 km²)</li>
+        <li><strong>핵심 랜드마크:</strong> 루사일 국제 스타디움, 루사일 마리나, 매립 인공섬, 미개발 사막 대조군</li>
+      </ul>
+      <div class="info-box">
+        <strong>좌표계: UTM Zone 39N (EPSG:32639)</strong><br>
+        WGS84 경위도 좌표계는 각도 단위 → 면적 왜곡 심함<br>
+        UTM 투영으로 30 m 격자의 <strong>등면적성</strong> 보장<br>
+        셀 면적 = 30 m × 30 m = <strong>900 m²</strong>
+      </div>
+      <div class="info-box green">
+        <strong>지역 선정 이유:</strong> 월드컵 전 원시 사막 → 개최 후 완성된 신도시라는 극단적 대비. 개발 전후 명확한 시점(2000·2010·2022)이 존재
+      </div>
+    </div>
+    <div class="col">
+      <div class="img-frame" style="flex:1; min-height:0; border-radius:10px;">
+        <img src="../maps/rgb_2022.png" alt="2022 RGB 루사일" style="width:100%; height:280px; object-fit:contain; background:#0d1b2a; display:block;">
+      </div>
+      <div style="text-align:center; font-size:12px; color:#888; padding:6px;">
+        ▲ 2022년 루사일 지역 트루컬러 RGB 합성 영상
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 4: 위성 데이터 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">03</span>
+    <span class="slide-header-title">위성 데이터 및 밴드 특성</span>
+    <span class="story-tag">③ 무엇으로 볼 것인가</span>
+  </div>
+  <div class="slide-body">
+    <div class="section-title">Landsat Collection 2 Level-2</div>
+    <div class="cards-row">
+      <div class="card">
+        <div class="card-icon">🛰</div>
+        <div class="card-title">2000년 — Landsat 5</div>
+        <div class="card-desc">월드컵 유치 이전<br><strong>원시 사막 Baseline</strong><br>단일 장면 최적 선정</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">2010년 — Landsat 7</div>
+        <div class="card-desc">유치 확정, 개발 시작<br><strong>SLC-off 중간값 합성</strong><br>6장 Median Composite</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏙️</div>
+        <div class="card-title">2022년 — Landsat 8/9</div>
+        <div class="card-desc">월드컵 개최, 신도시 완공<br><strong>최종 상태 관측</strong><br>OLI 센서 개선판</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:20px; align-items:flex-start;">
+      <div style="flex:1;">
+        <div style="font-size:13px; font-weight:700; color:var(--primary); margin-bottom:8px;">사용 밴드</div>
+        <div class="chips">
+          <span class="chip blue-band">B2 Blue</span>
+          <span class="chip green-band">B3 Green</span>
+          <span class="chip red-band">B4 Red</span>
+          <span class="chip nir">B5 NIR</span>
+          <span class="chip swir">B6 SWIR1</span>
+          <span class="chip swir">B7 SWIR2</span>
+        </div>
+      </div>
+      <div style="flex:1;">
+        <div class="info-box">
+          <strong>계절성 통제:</strong> 모든 영상을 <strong>1–4월(건기·겨울~봄)</strong>로 고정<br>
+          태양 고도각과 계절적 식생 변화에 의한 오차 최소화
+        </div>
+      </div>
+    </div>
+    <div class="info-box red">
+      <strong>Landsat 7 SLC-off 문제 해결:</strong> 2003년 센서 고장으로 발생하는 빗살무늬 결측을 극복하기 위해 동일 계절(1~4월) 구름 10% 이하 장면 <strong>6장을 픽셀별 중간값(Median Composite)</strong>으로 합성 → 결측 Gap-filling 완료
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 5: 분석 파이프라인 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">04</span>
+    <span class="slide-header-title">원격탐사 분석 파이프라인</span>
+    <span class="story-tag">④ 어떻게 분석할 것인가</span>
+  </div>
+  <div class="slide-body">
+    <div class="section-title">7단계 자동화 파이프라인 (Python)</div>
+
+    <!-- 파이프라인 Row 1: ①~④ -->
+    <div style="display:flex; align-items:center; gap:0; margin: 6px 0;">
+      <div class="pipe-step" style="flex:1;">① STAC 검색<small>cloud &lt; 10%</small></div>
+      <svg width="32" height="20" viewBox="0 0 32 20" style="flex-shrink:0;"><line x1="2" y1="10" x2="26" y2="10" stroke="#e8a020" stroke-width="2.5"/><polygon points="26,5 32,10 26,15" fill="#e8a020"/></svg>
+      <div class="pipe-step" style="flex:1;">② Windowed Read<small>AOI 12×12 km</small></div>
+      <svg width="32" height="20" viewBox="0 0 32 20" style="flex-shrink:0;"><line x1="2" y1="10" x2="26" y2="10" stroke="#e8a020" stroke-width="2.5"/><polygon points="26,5 32,10 26,15" fill="#e8a020"/></svg>
+      <div class="pipe-step" style="flex:1;">③ UTM 재투영<small>30 m 격자</small></div>
+      <svg width="32" height="20" viewBox="0 0 32 20" style="flex-shrink:0;"><line x1="2" y1="10" x2="26" y2="10" stroke="#e8a020" stroke-width="2.5"/><polygon points="26,5 32,10 26,15" fill="#e8a020"/></svg>
+      <div class="pipe-step highlight" style="flex:1;">④ 지수 연산<small>NDVI/NDBI/MNDWI/BSI</small></div>
+    </div>
+
+    <!-- 꺾임 화살표 (↓) -->
+    <div style="display:flex; justify-content:flex-end; padding-right:calc(0% + 2px);">
+      <svg width="20" height="28" viewBox="0 0 20 28"><line x1="10" y1="2" x2="10" y2="22" stroke="#e8a020" stroke-width="2.5"/><polygon points="5,22 10,28 15,22" fill="#e8a020"/></svg>
+    </div>
+
+    <!-- 파이프라인 Row 2: ⑦~⑤ (역방향) -->
+    <div style="display:flex; align-items:center; gap:0; margin: 0 0 6px 0;">
+      <div class="pipe-step" style="flex:1;">⑦ 카토그래피<small>지도 제작</small></div>
+      <svg width="32" height="20" viewBox="0 0 32 20" style="flex-shrink:0; transform:scaleX(-1);"><line x1="2" y1="10" x2="26" y2="10" stroke="#e8a020" stroke-width="2.5"/><polygon points="26,5 32,10 26,15" fill="#e8a020"/></svg>
+      <div class="pipe-step" style="flex:1;">⑥ 전이행렬<small>변화 정량화</small></div>
+      <svg width="32" height="20" viewBox="0 0 32 20" style="flex-shrink:0; transform:scaleX(-1);"><line x1="2" y1="10" x2="26" y2="10" stroke="#e8a020" stroke-width="2.5"/><polygon points="26,5 32,10 26,15" fill="#e8a020"/></svg>
+      <div class="pipe-step" style="flex:1;">⑤ KMeans 분류<small>5클래스 피복</small></div>
+      <svg width="32" height="20" viewBox="0 0 32 20" style="flex-shrink:0; transform:scaleX(-1);"><line x1="2" y1="10" x2="26" y2="10" stroke="#e8a020" stroke-width="2.5"/><polygon points="26,5 32,10 26,15" fill="#e8a020"/></svg>
+      <div class="pipe-step highlight" style="flex:1;">④ 지수 결과 입력<small>10차원 특징 벡터</small></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div class="info-box blue">
+        <strong>STAC API 활용:</strong> AWS Earth Search v1을 통해 AOI 영역에서 최적 장면 자동 검색. Windowed Read로 전체 장면 다운로드 없이 12×12 km만 읽기
+      </div>
+      <div class="info-box green">
+        <strong>다년도 통합 분류 일관성:</strong> 3개 연도 픽셀 풀 → 단일 KMeans 학습(Fit) → 각 연도 예측(Predict) → 시기 간 클러스터 라벨 일관성 보장
+      </div>
+      <div class="info-box">
+        <strong>헝가리안 최적 매칭:</strong> 클러스터 중심점의 분광 특징값을 기반으로 5개 군집을 Water / Urban / Vegetation / Desert / Mixed Surface로 자동 시맨틱 라벨 할당
+      </div>
+      <div class="info-box">
+        <strong>카토그래피 표준 준수:</strong> 모든 지도에 <strong>North Arrow · Scale Bar · 위경도 그리드 · 범례</strong> 자동 삽입 (GeoTIFF 메타데이터 기반)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 6: 분광 지수 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">05</span>
+    <span class="slide-header-title">원격탐사 분광 지수 공식 및 원리</span>
+    <span class="story-tag">④-1 지수 설계</span>
+  </div>
+  <div class="slide-body">
+    <div class="section-title">4가지 핵심 스펙트럴 지수</div>
+    <div class="index-grid">
+      <div class="index-card ndvi">
+        <div class="index-name">🌱 NDVI — 식생 지수</div>
+        <div class="index-formula">NDVI = (NIR − Red) / (NIR + Red)</div>
+        <div class="index-desc">식물이 Red를 흡수하고 NIR을 강하게 반사하는 특성 이용. 사막 내 녹지(조경, 골프장) 탐지에 활용</div>
+      </div>
+      <div class="index-card ndbi">
+        <div class="index-name">🏙️ NDBI — 시가지화 지수</div>
+        <div class="index-formula">NDBI = (SWIR1 − NIR) / (SWIR1 + NIR)</div>
+        <div class="index-desc">건물·아스팔트가 SWIR1에서 강하게 반사, NIR에서 약하게 반사. 도심 인프라 강조</div>
+      </div>
+      <div class="index-card mndwi">
+        <div class="index-name">🌊 MNDWI — 수체 지수</div>
+        <div class="index-formula">MNDWI = (Green − SWIR1) / (Green + SWIR1)</div>
+        <div class="index-desc">수체가 Green에서 반사↑, SWIR1에서 거의 흡수. 마리나 인공 수로 탐지에 효과적</div>
+      </div>
+      <div class="index-card bsi">
+        <div class="index-name">🏜️ BSI — 나지/사막 지수</div>
+        <div class="index-formula">BSI = [(SWIR1+Red) − (NIR+Blue)] / [(SWIR1+Red) + (NIR+Blue)]</div>
+        <div class="index-desc">흙·모래가 Red/SWIR1에서 높은 반사율을 보이는 특성. 자연 사막 및 나지 추출</div>
+      </div>
+    </div>
+    <div class="info-box blue" style="margin-top:8px;">
+      <strong>지수 조합의 필요성:</strong> 사막과 건조기 시가지는 NDVI가 둘 다 낮아 단일 지수로 분리 불가. NDBI(높음)↔BSI(높음) 차이를 다중 지수 융합으로 명확히 분리
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 7: KMeans 분류 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">06</span>
+    <span class="slide-header-title">머신러닝 기반 토지피복 분류</span>
+    <span class="story-tag">④-2 분류 설계</span>
+  </div>
+  <div class="slide-body">
+    <div class="section-title">다년도 통합 KMeans 비지도 분류</div>
+    <div class="cards-row">
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <div class="card-title">10차원 특징 공간</div>
+        <div class="card-desc">6개 반사도 밴드<br>+ 4개 지수(NDVI·NDBI·MNDWI·BSI)<br>= 10차원 feature vector</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">연합 풀(Union Pool)</div>
+        <div class="card-desc">3개 연도 픽셀 합산 → 단일 KMeans 학습 → 시기 간 분류 일관성 완전 보장</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏷️</div>
+        <div class="card-title">헝가리안 매칭</div>
+        <div class="card-desc">클러스터 중심점 분광값 기반으로 5개 군집에 시맨틱 라벨 자동 할당</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:16px; align-items:center; margin-top:4px;">
+      <div style="flex:1;">
+        <div style="font-size:13px; font-weight:700; color:var(--primary); margin-bottom:10px;">5개 토지피복 클래스</div>
+        <div class="legend" style="flex-direction:column; gap:8px;">
+          <div class="legend-item"><div class="legend-dot" style="background:#2196f3;"></div><span><strong>Water</strong> — 바다·마리나 수로</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#78909c;"></div><span><strong>Urban</strong> — 건물·도로·인프라</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4caf50;"></div><span><strong>Vegetation</strong> — 조경·골프장·녹지</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#d4a847;"></div><span><strong>Desert</strong> — 자연 사막·모래</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ff9800;"></div><span><strong>Mixed Surface</strong> — 혼합 경계</span></div>
+        </div>
+      </div>
+      <div style="flex:2;">
+        <div class="info-box">
+          <strong>왜 연합 KMeans인가?</strong><br>
+          연도별 개별 KMeans Fit → 동일 지표면에 매 연도 다른 클러스터 번호 배정 → 시계열 비교 불가<br><br>
+          <strong>해결:</strong> 2000+2010+2022 픽셀 전체를 합산한 Union Pool에 단일 KMeans를 Fit 후, 각 연도에 동일 모델로 Predict → 클러스터 인덱스 고정
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 8: RGB 시계열 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">07</span>
+    <span class="slide-header-title">True Colour RGB 시계열 비교</span>
+    <span class="story-tag">⑤ 결과 — 눈으로 보다</span>
+  </div>
+  <div class="slide-body">
+    <div class="section-title">2000 → 2010 → 2022 트루컬러 합성 영상</div>
+    <div class="img-row" style="flex:1; min-height:180px;">
+      <div class="img-frame">
+        <img src="../maps/rgb_2000.png" alt="2000 RGB" style="width:100%; height:200px; object-fit:contain; background:#0d1b2a;">
+        <div class="img-label">2000년 — 원시 사막</div>
+      </div>
+      <div class="img-frame">
+        <img src="../maps/rgb_2010.png" alt="2010 RGB" style="width:100%; height:200px; object-fit:contain; background:#0d1b2a;">
+        <div class="img-label">2010년 — 개발 시작</div>
+      </div>
+      <div class="img-frame">
+        <img src="../maps/rgb_2022.png" alt="2022 RGB" style="width:100%; height:200px; object-fit:contain; background:#0d1b2a;">
+        <div class="img-label">2022년 — 신도시 완공</div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:4px;">
+      <div class="info-box">
+        <strong>2000년</strong><br>해안선 외 전체가 모래벌판인 원시 사막 상태. 인공구조물 전무
+      </div>
+      <div class="info-box">
+        <strong>2010년</strong><br>격자형 도로망과 기초 인프라 출현. 도시 구획 정리 시작
+      </div>
+      <div class="info-box green">
+        <strong>2022년</strong><br>루사일 경기장·마리나·매립 인공섬. 고도로 개발된 도시 형태 뚜렷
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 9: 변화탐지 NDVI/NDBI ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">08</span>
+    <span class="slide-header-title">변화 탐지 — NDVI(식생) / NDBI(시가지) 차분 분석</span>
+    <span class="story-tag">⑤ 결과 — 지수로 측정하다</span>
+  </div>
+  <div class="slide-body" style="gap:10px;">
+    <div style="display:flex; gap:20px; flex:1; min-height:0;">
+      <div class="col" style="gap:10px;">
+        <div class="img-frame" style="flex:1; min-height:0;">
+          <img src="../maps/dndvi_2000_2022.png" alt="dNDVI" style="width:100%; height:240px; object-fit:contain; background:#0d1b2a;">
+          <div class="img-label">ΔNDVI (2000→2022) — 식생 증감</div>
+        </div>
+        <div class="info-box green" style="font-size:12px; padding:10px 14px; flex-shrink:0;">
+          <strong>식생 증가:</strong> 스타디움 주변·도로변·골프장 중심으로 양(+)의 NDVI 변화 — 조경·녹화 사업 실증
+        </div>
+      </div>
+      <div class="col" style="gap:10px;">
+        <div class="img-frame" style="flex:1; min-height:0;">
+          <img src="../maps/dndbi_2000_2022.png" alt="dNDBI" style="width:100%; height:240px; object-fit:contain; background:#0d1b2a;">
+          <div class="img-label">ΔNDBI (2000→2022) — 시가지 증감</div>
+        </div>
+        <div class="info-box red" style="font-size:12px; padding:10px 14px; flex-shrink:0;">
+          <strong>도시 급증:</strong> 신도시 중심부·마리나를 따라 NDBI 폭발적 상승 — 도시화·녹지화가 동시에 진행된 사막 개발의 전형적 패턴
+        </div>
+      </div>
+    </div>
+    <div style="background:linear-gradient(90deg,#0d1b2a,#1a3a5c); border-radius:10px; padding:11px 20px; color:#fff; font-size:13px; line-height:1.6; border-left:4px solid #e8a020; flex-shrink:0;">
+      💬 <em>"월드컵은 90분 경기로 끝나는 이벤트가 아니라, 개최국의 도시 공간에 장기적으로 남는 유산이다. 루사일 사례는 메가 스포츠 이벤트가 <strong style="color:#e8a020;">도시개발 전략</strong>으로 작동함을 위성 데이터로 실증한다."</em>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 10: MNDWI/BSI ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">09</span>
+    <span class="slide-header-title">수역 및 사막 지수 분석 결과</span>
+    <span class="story-tag">⑤ 결과 — 물과 사막</span>
+  </div>
+  <div class="slide-body" style="gap:10px;">
+    <div style="display:flex; gap:20px; flex:1; min-height:0;">
+      <div class="col" style="gap:10px;">
+        <div class="img-frame" style="flex:1; min-height:0;">
+          <img src="../maps/mndwi_2022.png" alt="MNDWI 2022" style="width:100%; height:260px; object-fit:contain; background:#0d1b2a;">
+          <div class="img-label">MNDWI (2022) — 수체 분포</div>
+        </div>
+        <div class="info-box blue" style="font-size:12px; padding:10px 14px; flex-shrink:0;">
+          <strong>수체 탐지:</strong> 연안 해수면과 새로 조성된 루사일 마리나 <strong>인공 운하</strong>를 파란색으로 명확히 지시 — 육지 내 수역 조성 실증
+        </div>
+      </div>
+      <div class="col" style="gap:10px;">
+        <div class="img-frame" style="flex:1; min-height:0;">
+          <img src="../maps/bsi_2022.png" alt="BSI 2022" style="width:100%; height:260px; object-fit:contain; background:#0d1b2a;">
+          <div class="img-label">BSI (2022) — 나지/사막 분포</div>
+        </div>
+        <div class="info-box" style="font-size:12px; padding:10px 14px; border-color:#e8a020; flex-shrink:0;">
+          <strong>잔존 사막:</strong> 루사일 외곽 자연 상태의 나지와 사막. <strong>BSI 감소 자리를 NDBI·MNDWI 신호가 채워나감</strong> — 개발 전선의 공간적 이동 확인
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 11: 토지피복 분류 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">10</span>
+    <span class="slide-header-title">KMeans 토지피복 분류 결과 시계열</span>
+    <span class="story-tag">⑤ 결과 — 분류 지도</span>
+  </div>
+  <div class="slide-body" style="gap:12px;">
+    <div class="section-title" style="font-size:18px; padding-bottom:8px;">2000 → 2010 → 2022 토지피복 분류 지도</div>
+    <div class="img-row" style="flex:1; min-height:180px;">
+      <div class="img-frame">
+        <img src="../maps/landcover_2000.png" alt="피복 2000" style="width:100%; height:220px; object-fit:contain; background:#0d1b2a;">
+        <div class="img-label">2000 — 사막 지배</div>
+      </div>
+      <div class="img-frame">
+        <img src="../maps/landcover_2010.png" alt="피복 2010" style="width:100%; height:220px; object-fit:contain; background:#0d1b2a;">
+        <div class="img-label">2010 — 도로망 출현</div>
+      </div>
+      <div class="img-frame">
+        <img src="../maps/landcover_2022.png" alt="피복 2022" style="width:100%; height:220px; object-fit:contain; background:#0d1b2a;">
+        <div class="img-label">2022 — 도시+녹지 완성</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+      <div class="legend" style="gap:16px;">
+        <div class="legend-item"><div class="legend-dot" style="background:#2196f3;"></div>Water</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#78909c;"></div>Urban</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4caf50;"></div>Vegetation</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#d4a847;"></div>Desert</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff9800;"></div>Mixed Surface</div>
+      </div>
+      <div style="background:linear-gradient(90deg,#0d1b2a,#1a3a5c); border-radius:10px; padding:12px 18px; color:#fff; font-size:12px; line-height:1.7; border-left:4px solid #e8a020; flex:1; max-width:480px;">
+        💬 <em>"사막이 도시와 녹지로 전환된 22년 — 메가 스포츠 이벤트가 <strong style="color:#e8a020;">도시개발 전략</strong>으로 작동함을 분류 지도가 공간적으로 증명한다."</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 12: 정량 분석 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">11</span>
+    <span class="slide-header-title">정량적 면적 변화 및 전이행렬</span>
+    <span class="story-tag">⑥ 결과 — 숫자로 증명하다</span>
+  </div>
+  <div class="slide-body">
+    <div class="stat-grid">
+      <div class="stat-card down">
+        <div class="stat-value">−49.5</div>
+        <div class="stat-unit">km²</div>
+        <div class="stat-label">사막(Desert)<br>2000→2022 감소</div>
+      </div>
+      <div class="stat-card up">
+        <div class="stat-value">+16.4</div>
+        <div class="stat-unit">km²</div>
+        <div class="stat-label">도시(Urban)<br>2000→2022 신규 출현</div>
+      </div>
+      <div class="stat-card up">
+        <div class="stat-value">+23.6</div>
+        <div class="stat-unit">km²</div>
+        <div class="stat-label">식생(Vegetation)<br>0.4→24.0 km²</div>
+      </div>
+      <div class="stat-card down">
+        <div class="stat-value">−27.7</div>
+        <div class="stat-unit">km²</div>
+        <div class="stat-label">수역(Water)<br>28.9→1.3 km²</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:20px; margin-top:4px;">
+      <div style="flex:1.2;">
+        <div style="font-size:13px; font-weight:700; color:var(--primary); margin-bottom:8px;">연도별 피복 면적 (km²)</div>
+        <table class="data-table">
+          <thead>
+            <tr><th>피복 클래스</th><th>2000</th><th>2010</th><th>2022</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>🟡 Desert</td><td>101.3</td><td>87.6</td><td class="td-down">51.8</td></tr>
+            <tr><td>⬜ Mixed</td><td>13.6</td><td>29.4</td><td class="td-up">43.4</td></tr>
+            <tr><td>🟢 Vegetation</td><td>0.4</td><td>1.4</td><td class="td-up">24.0</td></tr>
+            <tr><td>🔵 Water</td><td>29.0</td><td>26.0</td><td class="td-down">1.3</td></tr>
+            <tr><td>⚫ Urban</td><td>0.0</td><td>0.0</td><td class="td-up">16.4</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:13px; font-weight:700; color:var(--primary); margin-bottom:8px;">2000→2022 전이행렬 (km²) — 주요 흐름</div>
+        <div class="matrix-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr><th>From → To</th><th>Urban</th><th>Veg</th><th>Desert</th><th>Mixed</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-head">Water</td><td class="heat-4">15.98</td><td>5.61</td><td>0.54</td><td>1.58</td></tr>
+              <tr><td class="row-head">Desert</td><td class="heat-0">0.01</td><td class="heat-3">13.27</td><td class="heat-4">49.88</td><td class="heat-4">37.01</td></tr>
+              <tr><td class="row-head">Mixed</td><td>0.44</td><td>4.79</td><td>1.40</td><td>4.78</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px; color:#888; margin-top:6px;">* 사막 49.9 km²는 잔존 사막 유지, 37.0 km²는 Mixed로 전이</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:14px;">
+      <div class="info-box green" style="flex:1;">
+        <strong>지수 추이 (2000→2022):</strong><br>
+        NDVI: −0.018 → −0.013 (식생 증가)<br>
+        NDBI: −0.002 → +0.196 (도시화 ↑↑)<br>
+        BSI: 0.095 → 0.209 (나지 증가)
+      </div>
+      <div class="info-box blue" style="flex:1;">
+        <strong>전이 핵심 흐름:</strong><br>
+        Water(29 km²) → Urban(16 km²): 해안 매립·개발<br>
+        Desert(101 km²) → Veg(13 km²) + Mixed(37 km²): 사막 → 조경·개발지
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 13: 결론 ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">12</span>
+    <span class="slide-header-title">결론 및 원격탐사적 시사점</span>
+    <span class="story-tag">⑦ 답 — 가설 검증 완료</span>
+  </div>
+  <div class="slide-body">
+    <div class="section-title">핵심 발견 및 연구 의의</div>
+    <div class="concl-list">
+      <div class="concl-item">
+        <div class="concl-num">1</div>
+        <div class="concl-text">
+          <strong>도시화·녹지화 동시 실증:</strong> 2000→2022년 사막 49.5 km² 감소, 도시 16.4 km² 신규 출현, 식생 23.6 km² 급증. 특히 <strong>2010→2022년 개발 속도가 압도적</strong>으로 월드컵 개최 준비 기간에 집중
+        </div>
+      </div>
+      <div class="concl-item">
+        <div class="concl-num">2</div>
+        <div class="concl-text">
+          <strong>재현 가능한 파이프라인 구축:</strong> STAC API + Windowed Read로 대용량 영상 전체 다운로드 없이 효율적 분석 실현. Python 코드로 완전 자동화 → <strong>학술적 재현 가능성 확보</strong>
+        </div>
+      </div>
+      <div class="concl-item">
+        <div class="concl-num">3</div>
+        <div class="concl-text">
+          <strong>한계점:</strong> KMeans 비지도 분류 특성상 건물·모래 경계부 일부 오분류 발생. 지상 실측 데이터(Ground Truth) 부재로 정밀 오차 행렬(Confusion Matrix) 산출 불가
+        </div>
+      </div>
+      <div class="concl-item">
+        <div class="concl-num">4</div>
+        <div class="concl-text">
+          <strong>향후 개선 방향:</strong> Sentinel-2(10 m) 고해상도 데이터 융합, <strong>Random Forest</strong> 또는 <strong>딥러닝 U-Net</strong> 감독 분류 도입, 지상 참조 자료와 교차 검증으로 정확도 향상
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:8px; text-align:center;">
+      <span class="num">사막 → 신도시</span><br>
+      원격탐사로 증명한 22년간의 극적 변화 —<br>
+      <strong>사막 −49.5 km² | 도시 +16.4 km² | 녹지 +23.6 km²</strong>
+    </div>
+  </div>
+</div>
+
+</div><!-- slides-wrapper -->
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="key-hint">← → 방향키 또는 버튼으로 이동 &nbsp;|&nbsp; F 키로 전체화면</div>
+
+<!-- 전체화면 모드 내비 오버레이 -->
+<div class="fs-nav" id="fsNav">
+  <button class="fs-nav-btn" onclick="prevSlide()">← 이전</button>
+  <span class="fs-counter" id="fsCounter">1 / 14</span>
+  <button class="fs-nav-btn" onclick="nextSlide()">다음 →</button>
+  <button class="fs-exit-btn" onclick="exitFs()">✕ 종료</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('fsCounter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progressBar').style.width = ((current + 1) / total * 100) + '%';
+    // 전체화면 모드에서 슬라이드 상단으로 스크롤
+    if (document.body.classList.contains('fs-mode')) {
+      slides[current].scrollTop = 0;
+    }
+  }
+
+  function nextSlide() { showSlide(current + 1); }
+  function prevSlide() { showSlide(current - 1); }
+
+  function toggleFullscreen() {
+    if (!document.body.classList.contains('fs-mode')) {
+      enterFs();
+    } else {
+      exitFs();
+    }
+  }
+
+  function enterFs() {
+    document.body.classList.add('fs-mode');
+    document.getElementById('fsBtn').textContent = '✕';
+    document.getElementById('fsBtn').title = '전체화면 종료';
+    // 브라우저 전체화면도 함께
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+    slides[current].scrollTop = 0;
+  }
+
+  function exitFs() {
+    document.body.classList.remove('fs-mode');
+    document.getElementById('fsBtn').textContent = '⛶';
+    document.getElementById('fsBtn').title = '전체화면';
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  document.addEventListener('fullscreenchange', function() {
+    // 브라우저 ESC로 fullscreen 빠져나오면 fs-mode도 해제
+    if (!document.fullscreenElement && document.body.classList.contains('fs-mode')) {
+      exitFs();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); nextSlide(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+    if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+    if (e.key === 'Escape' && document.body.classList.contains('fs-mode')) exitFs();
+  });
+
+  // Init progress bar
+  document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
