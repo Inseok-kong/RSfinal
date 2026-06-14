@@ -202,8 +202,8 @@
 
     .slide-footer {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
       align-items: center;
       padding: 18px 70px 34px;
     }
@@ -224,6 +224,20 @@
       padding: 12px 18px;
       font-size: 20px;
       font-weight: 900;
+    }
+
+    .page-badge {
+      min-width: 46px;
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(26, 58, 92, 0.18);
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--primary);
+      font-size: 22px;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(26, 58, 92, 0.10);
     }
 
     .title-slide {
@@ -1978,6 +1992,16 @@
       if (fullscreenLabel) {
         fullscreenLabel.textContent = document.fullscreenElement ? "나가기" : "전체화면";
       }
+    });
+
+    document.querySelectorAll(".reveal .slides > section").forEach((section, index) => {
+      const footer = section.querySelector(".slide-footer");
+      if (!footer || index < 2) return;
+
+      const pageBadge = document.createElement("div");
+      pageBadge.className = "page-badge";
+      pageBadge.textContent = String(index + 1);
+      footer.appendChild(pageBadge);
     });
   </script>
 </body>
