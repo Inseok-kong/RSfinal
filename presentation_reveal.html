@@ -489,12 +489,18 @@
 
     .need-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 26px;
+      grid-template-columns: 1fr 58px 1fr;
+      column-gap: 18px;
       min-height: 0;
     }
 
     .need-column {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 18px;
+    }
+
+    .need-arrow-column {
       display: grid;
       grid-template-rows: auto 1fr;
       gap: 18px;
@@ -509,6 +515,20 @@
     .need-list {
       display: grid;
       gap: 18px;
+    }
+
+    .need-arrows {
+      display: grid;
+      gap: 18px;
+    }
+
+    .need-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 34px;
+      font-weight: 900;
     }
 
     .need-item {
@@ -950,6 +970,40 @@
       transform: scale(1.34);
     }
 
+    .result-map-triptych {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: #f9fafb;
+    }
+
+    .result-map-tile {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 28px 1fr;
+      gap: 6px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .result-map-tile span {
+      color: var(--primary);
+      font-size: 19px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .result-map-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: scale(1.18);
+      min-height: 0;
+    }
+
     .result-metrics {
       min-height: 0;
       display: grid;
@@ -1326,6 +1380,14 @@
                       <div class="need-item"><h3>육안 비교의 한계</h3><p>RGB 영상만으로는 변화 유형과 규모를 명확히 설명하기 어렵다.</p></div>
                       <div class="need-item"><h3>분광적 혼동</h3><p>건조지에서는 사막과 신도시 지표의 반사 특성이 유사하게 나타난다.</p></div>
                       <div class="need-item"><h3>정량 근거 부족</h3><p>어디가 얼마나 어떤 피복으로 바뀌었는지 수치화가 필요하다.</p></div>
+                    </div>
+                  </div>
+                  <div class="need-arrow-column">
+                    <div class="need-column-title">&nbsp;</div>
+                    <div class="need-arrows">
+                      <div class="need-arrow">→</div>
+                      <div class="need-arrow">→</div>
+                      <div class="need-arrow">→</div>
                     </div>
                   </div>
                   <div class="need-column">
@@ -1738,9 +1800,19 @@
           <div class="slide-body stack result-summary-body">
             <div class="visual-panel">
               <div class="result-summary-board">
-                <div class="result-map-panel">
-                  <div class="result-map-title">토지피복 변화 종합 · 2000 / 2010 / 2022</div>
-                  <img src="outputs/maps/landcover_comparison.png" alt="Land cover comparison">
+                <div class="result-map-triptych">
+                  <div class="result-map-tile">
+                    <span>ΔMNDWI · 수역/해안</span>
+                    <img src="outputs/maps/dmndwi_2000_2022.png" alt="MNDWI difference 2000 to 2022">
+                  </div>
+                  <div class="result-map-tile">
+                    <span>ΔNDBI · 도시화</span>
+                    <img src="outputs/maps/dndbi_2010_2022.png" alt="NDBI difference 2010 to 2022">
+                  </div>
+                  <div class="result-map-tile">
+                    <span>ΔBSI · 사막/나지</span>
+                    <img src="outputs/maps/dbsi_2010_2022.png" alt="BSI difference 2010 to 2022">
+                  </div>
                 </div>
                 <div class="result-metrics">
                   <div class="result-metric"><strong>Desert</strong><span>-49.5 km²<em>사막 지표 최대 감소</em></span></div>
