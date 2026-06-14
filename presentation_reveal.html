@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <script>
+    document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/print/' + (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper') + '.css">');
+  </script>
   <style>
     :root {
       --primary: #1a3a5c;
@@ -97,6 +100,12 @@
 
     .slide-body.wide-visual {
       grid-template-columns: 2.15fr 0.85fr;
+    }
+
+    .slide-body.stack {
+      grid-template-columns: 1fr;
+      grid-template-rows: 560px 1fr;
+      gap: 22px;
     }
 
     .visual-panel,
@@ -438,20 +447,104 @@
 
     .source-note {
       color: #667085;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 700;
-      line-height: 1.3;
+      line-height: 1.35;
       border-top: 1px solid var(--line);
       padding-top: 10px;
+    }
+
+    .source-note div + div {
+      margin-top: 5px;
+    }
+
+    .motivation-board {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 22px;
+      padding: 32px;
+      background:
+        linear-gradient(135deg, rgba(26, 58, 92, 0.05), rgba(232, 160, 32, 0.07)),
+        white;
+    }
+
+    .motivation-chain {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .motivation-card {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(26, 58, 92, 0.06);
+    }
+
+    .motivation-num {
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .motivation-title {
+      color: var(--primary);
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 12px;
+    }
+
+    .motivation-desc {
+      color: #526070;
+      font-size: 22px;
+      line-height: 1.32;
+      font-weight: 700;
+    }
+
+    .motivation-evidence {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .evidence-card {
+      border-left: 7px solid var(--accent);
+      background: #f9fafb;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .evidence-card h3 {
+      margin: 0 0 12px;
+      color: var(--primary);
+      font-size: 27px;
+      font-weight: 900;
+    }
+
+    .evidence-card p {
+      margin: 0;
+      color: #3b4658;
+      font-size: 21px;
+      line-height: 1.35;
+      font-weight: 650;
     }
 
     .lit-board {
       width: 100%;
       height: 100%;
       display: grid;
-      grid-template-rows: 1fr auto auto;
-      gap: 22px;
-      padding: 30px;
+      grid-template-rows: 330px 82px 76px;
+      gap: 18px;
+      padding: 24px;
       background:
         linear-gradient(135deg, rgba(26, 58, 92, 0.05), rgba(232, 160, 32, 0.08)),
         white;
@@ -468,8 +561,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 18px;
-      padding: 28px;
+      gap: 10px;
+      padding: 20px;
       background: white;
       border: 1px solid var(--line);
       box-shadow: 0 8px 22px rgba(26, 58, 92, 0.07);
@@ -483,7 +576,7 @@
 
     .lit-source {
       color: #667085;
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.32;
       font-weight: 800;
       margin-top: 8px;
@@ -491,24 +584,24 @@
 
     .lit-title {
       color: var(--primary);
-      font-size: 32px;
+      font-size: 29px;
       font-weight: 900;
       line-height: 1.16;
     }
 
     .lit-desc {
       color: #3b4658;
-      font-size: 22px;
+      font-size: 18px;
       line-height: 1.38;
       font-weight: 650;
     }
 
     .lit-key {
       color: var(--primary);
-      font-size: 20px;
+      font-size: 17px;
       line-height: 1.32;
       font-weight: 900;
-      padding-top: 16px;
+      padding-top: 10px;
       border-top: 1px solid var(--line);
     }
 
@@ -517,7 +610,7 @@
       grid-template-columns: 210px 1fr;
       align-items: center;
       gap: 24px;
-      padding: 22px 26px;
+      padding: 16px 22px;
       border-left: 8px solid var(--accent);
       background: #f9fafb;
     }
@@ -530,7 +623,7 @@
 
     .gap-text {
       color: var(--primary);
-      font-size: 27px;
+      font-size: 23px;
       line-height: 1.3;
       font-weight: 900;
     }
@@ -727,6 +820,69 @@
       background: white;
     }
 
+    .objective-board {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 22px;
+      padding: 30px;
+      background: white;
+    }
+
+    .objective-main {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 26px;
+      align-items: center;
+      padding: 34px;
+      background: #f9fafb;
+      border-left: 9px solid var(--accent);
+    }
+
+    .objective-main .big-word {
+      color: var(--accent);
+      font-size: 34px;
+      font-weight: 900;
+    }
+
+    .objective-main .big-text {
+      color: var(--primary);
+      font-size: 34px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .objective-mini {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .objective-chip {
+      background: #f4f7fa;
+      border-top: 7px solid var(--accent);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .objective-chip h3 {
+      margin: 0 0 10px;
+      color: var(--primary);
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .objective-chip p {
+      margin: 0;
+      color: #263244;
+      font-size: 21px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
     .finding {
       border-top: 8px solid var(--accent);
       background: #f9fafb;
@@ -758,6 +914,117 @@
       gap: 18px;
       width: 100%;
       height: 100%;
+    }
+
+    .index-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .index-tile {
+      display: grid;
+      grid-template-rows: 44px 1fr;
+      gap: 12px;
+      min-height: 0;
+      background: #f9fafb;
+      border: 1px solid var(--line);
+      padding: 14px;
+    }
+
+    .index-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .index-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
+    }
+
+    .text-panel.horizontal {
+      padding: 24px 30px;
+      justify-content: center;
+    }
+
+    .bullets.two-col {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 34px;
+      row-gap: 10px;
+    }
+
+    .bullets.two-col li {
+      font-size: 23px;
+    }
+
+    .transition-board {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 152px 1fr;
+      gap: 16px;
+      padding: 20px;
+      background: white;
+    }
+
+    .transition-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .transition-card {
+      background: #f9fafb;
+      border-left: 8px solid var(--accent);
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .transition-card .label {
+      color: #667085;
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .transition-card .value {
+      color: var(--primary);
+      font-size: 32px;
+      line-height: 1.12;
+      font-weight: 900;
+    }
+
+    .transition-card .note {
+      margin-top: 8px;
+      color: #3b4658;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .matrix-note {
+      color: #667085;
+      font-size: 17px;
+      font-weight: 800;
+      margin-top: 10px;
+    }
+
+    .transition-board .matrix-table {
+      font-size: 20px;
+    }
+
+    .transition-board .matrix-table th,
+    .transition-board .matrix-table td {
+      padding: 11px 14px;
     }
 
     .mini-row img {
@@ -892,16 +1159,16 @@
           <div class="slide-header"><div class="slide-no">01</div><div class="slide-title">연구 필요성: 도시개발을 공간자료로 검증</div></div>
           <div class="slide-body">
             <div class="visual-panel">
-              <div class="diagram">
-                <div class="flow-row">
-                  <div class="flow-card"><div class="flow-num">01</div><div class="flow-title">Mega Event</div><div class="flow-desc">월드컵 유치와 인프라 건설</div></div>
-                  <div class="flow-card"><div class="flow-num">02</div><div class="flow-title">Urban Expansion</div><div class="flow-desc">도로·건축물·매립지 확대</div></div>
-                  <div class="flow-card"><div class="flow-num">03</div><div class="flow-title">Land Cover Change</div><div class="flow-desc">사막·식생·수역 분포 변화</div></div>
+              <div class="motivation-board">
+                <div class="motivation-chain">
+                  <div class="motivation-card"><div class="motivation-num">01</div><div class="motivation-title">World Cup</div><div class="motivation-desc">루사일 개발을 촉진한 메가 이벤트</div></div>
+                  <div class="motivation-card"><div class="motivation-num">02</div><div class="motivation-title">Urban Growth</div><div class="motivation-desc">도로·경기장·주거지·마리나 확대</div></div>
+                  <div class="motivation-card"><div class="motivation-num">03</div><div class="motivation-title">Surface Change</div><div class="motivation-desc">사막 지표가 도시·녹지·혼합지표로 전환</div></div>
                 </div>
-                <div class="flow-row">
-                  <div class="flow-card"><div class="flow-num">04</div><div class="flow-title">Spectral Signal</div><div class="flow-desc">NDVI·NDBI·MNDWI·BSI 반응</div></div>
-                  <div class="flow-card"><div class="flow-num">05</div><div class="flow-title">Classification</div><div class="flow-desc">KMeans 토지피복 유형화</div></div>
-                  <div class="flow-card"><div class="flow-num">06</div><div class="flow-title">Quantification</div><div class="flow-desc">면적 변화와 전이경로 산출</div></div>
+                <div class="motivation-evidence">
+                  <div class="evidence-card"><h3>공간적 근거</h3><p>개발 흔적은 위성영상의 위치와 형태로 확인된다.</p></div>
+                  <div class="evidence-card"><h3>분광적 근거</h3><p>식생·도시·수역·사막은 서로 다른 반사 특성을 가진다.</p></div>
+                  <div class="evidence-card"><h3>정량적 근거</h3><p>면적 변화와 전이행렬로 변화 규모를 설명할 수 있다.</p></div>
                 </div>
               </div>
             </div>
@@ -909,11 +1176,10 @@
               <div class="kicker">Motivation</div>
               <ul class="bullets">
                 <li>월드컵 개발은 루사일의 공간구조를 바꾸는 계기</li>
-                <li>도시개발 영향은 지표면 반사 특성에 남음</li>
-                <li>사막과 도시는 건조지에서 분광적으로 혼동 가능</li>
-                <li>다중 지수와 분류 결과를 함께 사용해야 함</li>
+                <li>변화는 지표면 반사 특성과 토지피복에 남음</li>
+                <li>사막과 도시는 건조지에서 혼동 가능</li>
+                <li>따라서 단일 지도보다 다중 지표가 필요</li>
                 <li>정성 지도와 정량 면적을 동시에 제시</li>
-                <li>결과는 지도와 면적표로 함께 검증</li>
               </ul>
             </div>
           </div>
@@ -960,7 +1226,11 @@
                   <div class="gap-label">Research Gap</div>
                   <div class="gap-text">루사일 내부의 사막-도시 전환을 2000-2022년 Landsat 자료로 직접 정량화한 분석이 필요하다.</div>
                 </div>
-                <div class="source-note">참고문헌: Grichting, A. (2013). "Scales of Flows: Qatar and the Urban Legacies of Mega Events." ArchNet-IJAR, 7(2), 173-191. · Fan, J. et al. (2021). "Evaluating the Impact of Mega-Sports Events on Urbanization Focusing on Land-Use Changes Using a Scenario-Based Model." Sustainability, 13(4), 1649. · USGS Landsat Collection 2 Level-2 Surface Reflectance.</div>
+                <div class="source-note">
+                  <div>Grichting, A. (2013). "Scales of Flows: Qatar and the Urban Legacies of Mega Events." ArchNet-IJAR, 7(2), 173-191.</div>
+                  <div>Fan, J. et al. (2021). "Evaluating the Impact of Mega-Sports Events on Urbanization Focusing on Land-Use Changes Using a Scenario-Based Model." Sustainability, 13(4), 1649.</div>
+                  <div>USGS Landsat Collection 2 Level-2 Surface Reflectance Data Product.</div>
+                </div>
               </div>
             </div>
             <div class="text-panel">
@@ -984,10 +1254,16 @@
           <div class="slide-header"><div class="slide-no">01</div><div class="slide-title">연구 목적과 질문</div></div>
           <div class="slide-body equal">
             <div class="visual-panel">
-              <div class="summary-board">
-                <div class="finding"><h3>Where?</h3><p>개발 전후 변화가 집중된 공간을 지도화한다.</p></div>
-                <div class="finding"><h3>How Much?</h3><p>도시·식생·사막·수역 면적 변화를 km² 단위로 산출한다.</p></div>
-                <div class="finding"><h3>Why It Matters?</h3><p>메가 이벤트의 도시환경 영향을 원격탐사로 검증한다.</p></div>
+              <div class="objective-board">
+                <div class="objective-main">
+                  <div class="big-word">Goal</div>
+                  <div class="big-text">루사일 개발을 “보이는 변화”에서 “측정 가능한 변화”로 전환해 설명한다.</div>
+                </div>
+                <div class="objective-mini">
+                  <div class="objective-chip"><h3>Where?</h3><p>변화가 집중된 공간을 지도화</p></div>
+                  <div class="objective-chip"><h3>How Much?</h3><p>면적 변화를 km² 단위로 산출</p></div>
+                  <div class="objective-chip"><h3>To What?</h3><p>사막이 어떤 피복으로 바뀌었는지 추적</p></div>
+                </div>
               </div>
             </div>
             <div class="text-panel">
@@ -1164,17 +1440,17 @@
       <section>
         <div class="slide">
           <div class="slide-header"><div class="slide-no">04</div><div class="slide-title">도시화 및 사막 감소: NDBI와 BSI 차분</div></div>
-          <div class="slide-body equal">
+          <div class="slide-body stack">
             <div class="visual-panel">
-              <div class="mini-row">
-                <img src="outputs/maps/dndbi_2000_2022.png" alt="NDBI difference">
-                <img src="outputs/maps/dbsi_2000_2022.png" alt="BSI difference">
-                <img src="outputs/maps/mndwi_2022.png" alt="MNDWI 2022">
+              <div class="index-row">
+                <div class="index-tile"><div class="index-label">ΔNDBI · 도시화</div><img src="outputs/maps/dndbi_2000_2022.png" alt="NDBI difference"></div>
+                <div class="index-tile"><div class="index-label">ΔBSI · 사막/나지</div><img src="outputs/maps/dbsi_2000_2022.png" alt="BSI difference"></div>
+                <div class="index-tile"><div class="index-label">MNDWI · 수역</div><img src="outputs/maps/mndwi_2022.png" alt="MNDWI 2022"></div>
               </div>
             </div>
-            <div class="text-panel">
+            <div class="text-panel horizontal">
               <div class="kicker">Urban & Desert</div>
-              <ul class="bullets">
+              <ul class="bullets two-col">
                 <li>NDBI 증가는 인공구조물 증가를 의미</li>
                 <li>도시 중심부와 도로망에서 증가가 뚜렷</li>
                 <li>BSI 변화는 사막·나지 지표 변화를 반영</li>
@@ -1249,23 +1525,34 @@
       <section>
         <div class="slide">
           <div class="slide-header"><div class="slide-no">05</div><div class="slide-title">전이행렬: 사막은 무엇으로 바뀌었는가?</div></div>
-          <div class="slide-body">
+          <div class="slide-body stack">
             <div class="visual-panel">
-              <table class="matrix-table">
-                <thead><tr><th>2000 → 2022</th><th>Water</th><th>Urban</th><th>Vegetation</th><th>Desert</th><th>Mixed</th></tr></thead>
-                <tbody>
-                  <tr><td>Water</td><td>0.7</td><td>16.0</td><td>5.6</td><td>0.5</td><td>1.6</td></tr>
-                  <tr><td>Vegetation</td><td>0.0</td><td>0.0</td><td>0.4</td><td>0.0</td><td>0.0</td></tr>
-                  <tr><td>Desert</td><td>0.0</td><td>0.0</td><td>13.3</td><td>49.9</td><td>37.0</td></tr>
-                  <tr><td>Mixed</td><td>0.6</td><td>0.4</td><td>4.8</td><td>1.4</td><td>4.8</td></tr>
-                </tbody>
-              </table>
+              <div class="transition-board">
+                <div class="transition-highlights">
+                  <div class="transition-card"><div class="label">Desert 유지</div><div class="value">49.9 km²</div><div class="note">2000년 사막 중 그대로 남은 면적</div></div>
+                  <div class="transition-card"><div class="label">Desert → Mixed</div><div class="value">37.0 km²</div><div class="note">개발 중간 지표로 전환</div></div>
+                  <div class="transition-card"><div class="label">Desert → Vegetation</div><div class="value">13.3 km²</div><div class="note">조경·녹지 신호로 전환</div></div>
+                </div>
+                <div>
+                  <table class="matrix-table">
+                    <thead><tr><th>2000 → 2022</th><th>Water</th><th>Urban</th><th>Vegetation</th><th>Desert</th><th>Mixed</th></tr></thead>
+                    <tbody>
+                      <tr><td>Water</td><td>0.7</td><td>16.0</td><td>5.6</td><td>0.5</td><td>1.6</td></tr>
+                      <tr><td>Urban</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                      <tr><td>Vegetation</td><td>0.0</td><td>0.0</td><td>0.4</td><td>0.0</td><td>0.0</td></tr>
+                      <tr><td>Desert</td><td>0.0</td><td>0.0</td><td>13.3</td><td>49.9</td><td>37.0</td></tr>
+                      <tr><td>Mixed</td><td>0.6</td><td>0.4</td><td>4.8</td><td>1.4</td><td>4.8</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="matrix-note">단위: km² · 행은 2000년 분류, 열은 2022년 분류</div>
+                </div>
+              </div>
             </div>
-            <div class="text-panel">
+            <div class="text-panel horizontal">
               <div class="kicker">Transition Matrix</div>
-              <ul class="bullets">
+              <ul class="bullets two-col">
                 <li>행은 2000년, 열은 2022년 클래스</li>
-                <li>Desert 중 49.9 km²는 그대로 유지</li>
+                <li>Urban 행은 2000년 도시 면적이 0이라 모두 0</li>
                 <li>Desert → Mixed가 37.0 km²로 큼</li>
                 <li>Desert → Vegetation은 13.3 km²</li>
                 <li>Water → Urban도 16.0 km²로 나타남</li>
