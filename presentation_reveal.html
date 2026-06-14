@@ -908,6 +908,133 @@
       margin: 0;
     }
 
+    .result-summary-board {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 1fr 96px;
+      gap: 14px;
+      padding: 18px;
+      background: white;
+    }
+
+    .result-summary-body {
+      grid-template-rows: 620px 110px;
+      gap: 16px;
+    }
+
+    .result-map-panel {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 34px 1fr;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: #f9fafb;
+      overflow: hidden;
+    }
+
+    .result-map-title {
+      color: var(--primary);
+      font-size: 21px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .result-map-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
+      min-height: 0;
+      transform: scale(1.34);
+    }
+
+    .result-metrics {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .result-metric {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 12px;
+      align-items: center;
+      background: #f9fafb;
+      border-left: 8px solid var(--accent);
+      padding: 12px 16px;
+    }
+
+    .result-metric strong {
+      color: var(--primary);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .result-metric span {
+      color: #111827;
+      font-size: 26px;
+      font-weight: 850;
+      line-height: 1.28;
+    }
+
+    .result-metric em {
+      display: block;
+      color: #667085;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 800;
+    }
+
+    .result-conclusion {
+      padding: 12px 22px;
+      justify-content: center;
+    }
+
+    .key-strip {
+      display: grid;
+      grid-template-columns: 150px 1fr 1fr;
+      align-items: center;
+      column-gap: 18px;
+      width: 100%;
+    }
+
+    .key-strip .kicker {
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .key-column {
+      display: grid;
+      gap: 8px;
+    }
+
+    .key-bullet {
+      position: relative;
+      min-height: 26px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px 0 24px;
+      background: #f9fafb;
+      color: #111827;
+      font-size: 20px;
+      line-height: 1.22;
+      font-weight: 850;
+    }
+
+    .key-bullet::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+    }
+
     .mini-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1608,24 +1735,35 @@
       <section>
         <div class="slide">
           <div class="slide-header"><div class="slide-no">06</div><div class="slide-title">연구 결과 요약</div></div>
-          <div class="slide-body equal">
+          <div class="slide-body stack result-summary-body">
             <div class="visual-panel">
-              <div class="summary-board">
-                <div class="finding"><h3>Urban</h3><p>NDBI와 분류 결과에서 도시·인공구조물 증가가 확인되었다.</p></div>
-                <div class="finding"><h3>Desert</h3><p>사막 면적은 2000년 대비 약 49.5 km² 감소했다.</p></div>
-                <div class="finding"><h3>Vegetation</h3><p>개발과 함께 조경·녹지 신호가 크게 증가했다.</p></div>
+              <div class="result-summary-board">
+                <div class="result-map-panel">
+                  <div class="result-map-title">토지피복 변화 종합 · 2000 / 2010 / 2022</div>
+                  <img src="outputs/maps/landcover_comparison.png" alt="Land cover comparison">
+                </div>
+                <div class="result-metrics">
+                  <div class="result-metric"><strong>Desert</strong><span>-49.5 km²<em>사막 지표 최대 감소</em></span></div>
+                  <div class="result-metric"><strong>Urban</strong><span>+16.4 km²<em>해안·도로 축 인공 지표 증가</em></span></div>
+                  <div class="result-metric"><strong>Vegetation</strong><span>+23.6 km²<em>조경·녹지 신호 확산</em></span></div>
+                  <div class="result-metric"><strong>Mixed</strong><span>+29.8 km²<em>공사장·노출지·복합 지표 증가</em></span></div>
+                </div>
               </div>
             </div>
-            <div class="text-panel">
-              <div class="kicker">Key Findings</div>
-              <ul class="bullets">
-                <li>루사일은 사막 기반 신도시로 빠르게 전환</li>
-                <li>RGB 영상에서 개발 축과 해안 변화 확인</li>
-                <li>NDBI는 도시화 신호를 뚜렷하게 포착</li>
-                <li>NDVI는 인공 녹지 증가를 보완 설명</li>
-                <li>BSI는 기존 사막 지표의 감소를 지지</li>
-                <li>KMeans 분류와 지수 분석 결과가 일관됨</li>
-              </ul>
+            <div class="text-panel horizontal result-conclusion">
+              <div class="key-strip">
+                <div class="kicker">Key Findings</div>
+                <div class="key-column">
+                  <div class="key-bullet">사막 기반 지표가 도시형 피복으로 재편</div>
+                  <div class="key-bullet">해안·도로 축에서 개발 흔적 집중</div>
+                  <div class="key-bullet">NDBI는 인공구조물 증가를 포착</div>
+                </div>
+                <div class="key-column">
+                  <div class="key-bullet">NDVI는 조경·녹지 확산을 보완</div>
+                  <div class="key-bullet">BSI 감소는 사막 지표 축소를 지지</div>
+                  <div class="key-bullet">지도와 면적으로 공간 변화를 검증</div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="slide-footer"><div class="takeaway">월드컵 개발은 루사일의 지표를 도시·녹지·혼합지표 중심으로 재구성했다.</div><div class="section-tag">06 결론</div></div>
