@@ -969,62 +969,93 @@
       width: 100%;
       height: 100%;
       display: grid;
-      grid-template-rows: 152px 1fr;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 16px;
       padding: 20px;
       background: white;
     }
 
-    .transition-highlights {
+    .transition-visual {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .transition-card {
+      grid-template-rows: 34px 1fr;
+      gap: 10px;
+      min-height: 0;
+      border: 1px solid var(--line);
       background: #f9fafb;
-      border-left: 8px solid var(--accent);
-      padding: 18px 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: 12px;
     }
 
-    .transition-card .label {
-      color: #667085;
-      font-size: 18px;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .transition-card .value {
+    .transition-visual-label {
       color: var(--primary);
-      font-size: 32px;
-      line-height: 1.12;
+      font-size: 21px;
       font-weight: 900;
+      text-align: center;
     }
 
-    .transition-card .note {
-      margin-top: 8px;
-      color: #3b4658;
-      font-size: 19px;
-      font-weight: 700;
+    .transition-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
+      min-height: 0;
     }
 
-    .matrix-note {
+    .transition-paths {
+      display: grid;
+      grid-template-rows: 34px 1fr auto;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .transition-paths-title {
+      color: var(--primary);
+      font-size: 21px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .transition-note {
       color: #667085;
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 800;
-      margin-top: 10px;
     }
 
-    .transition-board .matrix-table {
-      font-size: 20px;
+    .flow-table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      background: white;
+      font-size: 17px;
+      font-weight: 750;
+      color: #263244;
     }
 
-    .transition-board .matrix-table th,
-    .transition-board .matrix-table td {
-      padding: 11px 14px;
+    .flow-table th,
+    .flow-table td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .flow-table th {
+      background: var(--primary);
+      color: white;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .flow-table td:nth-child(1),
+    .flow-table td:nth-child(2) {
+      color: var(--primary);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .flow-table td:nth-child(3) {
+      color: var(--accent);
+      font-weight: 900;
+      text-align: center;
+      white-space: nowrap;
     }
 
     .mini-row img {
@@ -1536,39 +1567,41 @@
           <div class="slide-body stack">
             <div class="visual-panel">
               <div class="transition-board">
-                <div class="transition-highlights">
-                  <div class="transition-card"><div class="label">Desert 유지</div><div class="value">49.9 km²</div><div class="note">2000년 사막 중 그대로 남은 면적</div></div>
-                  <div class="transition-card"><div class="label">Desert → Mixed</div><div class="value">37.0 km²</div><div class="note">개발 중간 지표로 전환</div></div>
-                  <div class="transition-card"><div class="label">Desert → Vegetation</div><div class="value">13.3 km²</div><div class="note">조경·녹지 신호로 전환</div></div>
+                <div class="transition-visual">
+                  <div class="transition-visual-label">토지피복 변화 지도 · 2000 / 2010 / 2022</div>
+                  <img src="outputs/maps/landcover_comparison.png" alt="Land cover comparison">
                 </div>
-                <div>
-                  <table class="matrix-table">
-                    <thead><tr><th>2000 → 2022</th><th>Water</th><th>Urban</th><th>Vegetation</th><th>Desert</th><th>Mixed</th></tr></thead>
+                <div class="transition-paths">
+                  <div class="transition-paths-title">주요 전환 경로</div>
+                  <table class="flow-table">
+                    <thead>
+                      <tr><th>2000년</th><th>2022년</th><th>면적</th><th>해석</th></tr>
+                    </thead>
                     <tbody>
-                      <tr><td>Water</td><td>0.7</td><td>16.0</td><td>5.6</td><td>0.5</td><td>1.6</td></tr>
-                      <tr><td>Urban</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-                      <tr><td>Vegetation</td><td>0.0</td><td>0.0</td><td>0.4</td><td>0.0</td><td>0.0</td></tr>
-                      <tr><td>Desert</td><td>0.0</td><td>0.0</td><td>13.3</td><td>49.9</td><td>37.0</td></tr>
-                      <tr><td>Mixed</td><td>0.6</td><td>0.4</td><td>4.8</td><td>1.4</td><td>4.8</td></tr>
+                      <tr><td>Desert</td><td>Mixed</td><td>37.0</td><td>개발 중간 지표로 전환</td></tr>
+                      <tr><td>Desert</td><td>Vegetation</td><td>13.3</td><td>조경·녹지 신호 증가</td></tr>
+                      <tr><td>Water</td><td>Urban</td><td>16.0</td><td>해안 매립·인공 구조물 가능성</td></tr>
+                      <tr><td>Desert</td><td>Desert</td><td>49.9</td><td>유지된 사막 핵심 지역</td></tr>
+                      <tr><td>Mixed</td><td>Vegetation</td><td>4.8</td><td>초기 개발지 일부 녹지화</td></tr>
                     </tbody>
                   </table>
-                  <div class="matrix-note">단위: km² · 행은 2000년 분류, 열은 2022년 분류</div>
+                  <div class="transition-note">단위: km² · 발표 해석에 중요한 전환 경로만 선별</div>
                 </div>
               </div>
             </div>
             <div class="text-panel horizontal">
-              <div class="kicker">Transition Matrix</div>
+              <div class="kicker">Interpretation</div>
               <ul class="bullets two-col">
-                <li>행은 2000년, 열은 2022년 클래스</li>
-                <li>Urban 행은 2000년 도시 면적이 0이라 모두 0</li>
-                <li>Desert → Mixed가 37.0 km²로 큼</li>
-                <li>Desert → Vegetation은 13.3 km²</li>
-                <li>Water → Urban도 16.0 km²로 나타남</li>
-                <li>개발 중간 지표의 확대가 핵심 경로</li>
+                <li>2000년에는 대부분의 내부 지역이 사막으로 분류됨</li>
+                <li>2022년에는 도시·녹지·혼합지표가 해안과 내부로 확산</li>
+                <li>사막 감소의 주요 경로는 Mixed Surface와 Vegetation 전환</li>
+                <li>Mixed Surface 증가는 도로·공사장·노출지 등 개발 중간 단계로 해석</li>
+                <li>Water → Urban은 해안 매립 또는 인공 구조물 확장 가능성을 시사</li>
+                <li>따라서 루사일 개발은 사막의 단순 감소가 아니라 도시형 지표로의 재편임</li>
               </ul>
             </div>
           </div>
-          <div class="slide-footer"><div class="takeaway">전이행렬은 단순 면적 변화가 아니라 사막 지표가 어떤 피복 유형으로 이동했는지를 보여준다.</div><div class="section-tag">05 전이 분석</div></div>
+          <div class="slide-footer"><div class="takeaway">전이행렬은 숫자 표 자체보다, 어떤 피복이 어떤 개발 지표로 이동했는지를 해석할 때 의미가 있다.</div><div class="section-tag">05 전이 분석</div></div>
         </div>
       </section>
 
